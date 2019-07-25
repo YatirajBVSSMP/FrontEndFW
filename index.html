@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+    
+    <html>
+    
+        <head>
+    
+            <!-- Responsive Meta Tag -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+			 <link rel="stylesheet" href="styl.css">
+            <title>Freshworks</title>	
+ 
+        </head>	
+		<img src="logo.png" class="center">
+        <body>
+            <form>
+                <input type = "text" name = "country_name" id = "country_name" placeholder="Enter country name" required/>
+  
+                <button type = "button" onclick = "searchCountry()" id = "search-btn">Search</button>
+            </form>  
+
+            <div id = "container">
+            </div>
+        </body>	
+        <script type = "text/javascript">
+            function searchCountry() {
+                var country_field = document.getElementById("country_name");
+                var country_name, search_results;
+                if(country_field.value == "") {
+                    alert("Please enter a country");
+                } 
+                else {
+                    country_name = country_field.value;
+                    var uri = "https://restcountries.eu/rest/v2/name/" + country_name;
+                    var rr = fetch(uri)
+                    .then(response => {
+                        search_results = response.json().then(response1 => {
+                            var cardContent = "<div class = \"card-container\">";
+                            for(var i = 0; i < response1.length; i++) {
+                                cardContent += "<div class = \"card\">"; 
+                                cardContent += "<p>";
+                                cardContent += response1[i].name;
+                                cardContent += "<hr>";
+                                cardContent += "<img src = \" " + "https://www.countryflags.io/" + response1[i].alpha2Code + "/flat/64.png" + " \" class = \"flag\">";
+                                cardContent += "</p> <br>";
+                                cardContent += "<a href = \"country.html?alpha2Code=" + response1[i].alpha2Code + " \">View Details</a>";
+                                cardContent += "</div>";    
+                            }
+                            cardContent += "</div>";
+                            document.getElementById("container").innerHTML = cardContent;
+                        })
+                        
+                    })
+                    
+                }
+            }
+        </script>
+    </html>	
+
+    <style type = "text/css"> 
+	body{
+	background-color:#228B22
+	}
+        #container {
+            width : 700px; 
+            margin: auto;
+        } 
+        .card {
+            width: 300px;
+            box-shadow: 3px 3px 15px #black;
+            margin: 20px auto;;
+            text-align: center;
+			border-radius:15px;
+			background-color:white;
+        }
+        .flag {
+            display: block;
+            margin: auto;
+            width: 100px;
+        }
+        form {
+            text-align: center;
+        }
+        input {
+            width : 230px;
+            margin : auto;
+            height : 30px;
+            border: 1px solid #ccc;;
+            border-radius: 5px;
+        }
+		#search-btn {
+		  background-color: #4CAF50; 
+		  border: none;
+		  color: white;
+		  padding: 10px 30px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 13px;
+		  
+		  position: absolute;
+		  left: 810px;
+		}
+		img{
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		padding: 5px;
+		width:200 px;
+		opacity: 0.8;
+		border-radius: 20%;
+		}
+		.center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 30%;
+}
+       
+    </style>
+    
